@@ -6,7 +6,12 @@ rainfall = as.data.frame(t(rainfall))
 rainfall$V1 = substr(rainfall$V1,1,5)
 rainfall$V1 = as.numeric(rainfall$V1)
 station$Station.ID = as.numeric(station$Station.ID)
-rainfall = rainfall[-1,c(1,11)]
+
+#write.table(rainfall, "rainfallPY.txt", sep = "\t", col.names = F, row.names = F)
+#write.table(station, "stationPY.txt", sep = "\t", col.names = T, row.names = F)
+
+
+rainfall = rainfall[-1,c(1,2)]
 colnames(rainfall) = c("V1","V2")
 rainfall$V2 = as.numeric(rainfall$V2)
 rainfall[which(rainfall$V2 == -999),2] <-NA
