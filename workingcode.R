@@ -5,6 +5,7 @@ turkey = imported_raster
 plot(turkey)
 turkey = rasterToPoints(turkey)
 turkey = as.data.frame(turkey)
+write.table(turkey, "downscaled.txt", sep = "\t", col.names = F, row.names = F)
 library(geosphere)
 distGeo(c(34.92083,42.0375),c(34.92917,42.0375))
 
