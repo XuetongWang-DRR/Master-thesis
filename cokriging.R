@@ -1,3 +1,8 @@
+library(dplyr)
+library(ggplot2)
+library(kriging)
+library(gstat)
+library(scales)
 #Reading the data
 station = read.table("D:/ITC/thesis_Turkey/stationID.txt", sep = "\t", header = T)
 rainfall = read.table("D:/ITC/thesis_Turkey/rainfallFr2015.txt", sep = "\t", header = F)
@@ -16,7 +21,8 @@ colnames(rainfall) = c("V1","V2")
 rainfall$V2 = as.numeric(rainfall$V2)
 rainfall[which(rainfall$V2 == -999),2] <-NA
 rainfall = na.omit(rainfall)
-rainfall[which(rainfall$V2 == 0),2] <- 0.0001
+rainfall$V2 = rainfall$V2 +1
+
 colnames(station)[1] <- c("ID")
 colnames(rainfall) <- c("ID","rainfall")
 combind = left_join(rainfall,station,by = c("ID"))
@@ -45,6 +51,9 @@ colnames(new) = c("Lat","Lon")
 coordinates(new) <- ~Lon+Lat
 lzn.kriged <- krige(ltra ~ 1, combine.1, new, model=TEM_v_fit)
 
+
+
+
 lzn.kriged %>% as.data.frame %>%
   ggplot(aes(x=Lon, y=Lat)) + geom_tile(aes(fill=var1.pred)) + coord_equal() +
   scale_fill_gradient(low = "yellow", high="red") +
@@ -52,6 +61,33 @@ lzn.kriged %>% as.data.frame %>%
   theme_bw()
 lzn = as.data.frame(lzn.kriged)
 lzn$rainfall = exp(lzn$var1.pred)
+lzn$rainfall = lzn$rainfall -1
+lzn[which(lzn$rainfall <0),5] <- 0
+
+
+
+
+
+
+
+
+lzn.kriged %>% as.data.frame %>%
+  ggplot(aes(x=Lon, y=Lat)) + geom_tile(aes(fill=rainfall)) + coord_equal() +
+  scale_fill_gradient(low = "yellow", high="red") +
+  scale_x_continuous(labels=comma) + scale_y_continuous(labels=comma) +
+  theme_bw()
+lzn = as.data.frame(lzn.kriged)
+lzn$rainfall = exp(lzn$var1.pred)
+
+
+
+
+
+library(raster)
+R = raster("D:/ITC/thesis_Turkey/CHELSA_pr_31_12_1980_V.2.1.tif")
+
+  ra = raster("E:/RadarData/2019/12/RAD_NL25_RAC_MFBS_01H_201912290100.nc")+
+  
 
 combine.1 = as.data.frame(combine.1)
 #examples online
