@@ -9,7 +9,7 @@ turkey = rasterToPoints(turkey)
 turkey = as.data.frame(turkey)
 write.table(turkey, "downscaled.txt", sep = "\t", col.names = F, row.names = F)
 library(geosphere)
-distGeo(c(34.91667,42.03333),c(34.93333,42.03333))
+distGeo(c(38.85,41.55002),c(39.45,41.35002))
 
 write.table(turkey,"new.txt",sep = "\t", col.names = F, row.names = F)
 

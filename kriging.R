@@ -15,12 +15,12 @@ rainfall$V1 = as.numeric(rainfall$V1)
 station$Station.ID = as.numeric(station$Station.ID)
 
 
-rainfall = rainfall[-1,c(1,8)]
+rainfall = rainfall[-1,c(1,680)]
 colnames(rainfall) = c("V1","V2")
 rainfall$V2 = as.numeric(rainfall$V2)
 rainfall[which(rainfall$V2 == -999),2] <-NA
 rainfall = na.omit(rainfall)
-rainfall$V2 = rainfall$V2 +1
+rainfall$V2 = rainfall$V2 +2
 
 colnames(station)[1] <- c("ID")
 colnames(rainfall) <- c("ID","rainfall")
@@ -39,7 +39,7 @@ plot(TEM_v, plot.number= T)
 
 #TEM_v_fit <- fit.variogram(object= TEM_v,
 #                           model = vgm(1, "Pow", 1))
-TEM_v_fit = fit.variogram(TEM_v, vgm(max(TEM_v$gamma)*0.9,"Sph",max(TEM_v$dist)/2,mean(TEM_v$gamma)/4))
+TEM_v_fit = fit.variogram(TEM_v, vgm(0.75,"Exp",1,0.5))
 
 
 plot(TEM_v, TEM_v_fit) 
@@ -60,7 +60,7 @@ lzn.kriged %>% as.data.frame %>%
   theme_bw()
 lzn = as.data.frame(lzn.kriged)
 lzn$rainfall = exp(lzn$var1.pred)
-lzn$rainfall = lzn$rainfall -1
+lzn$rainfall = lzn$rainfall -2
 lzn[which(lzn$rainfall <0),5] <- 0
 
 
