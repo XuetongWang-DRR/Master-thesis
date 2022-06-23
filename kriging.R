@@ -15,7 +15,7 @@ rainfall$V1 = as.numeric(rainfall$V1)
 station$Station.ID = as.numeric(station$Station.ID)
 
 
-rainfall = rainfall[-1,c(1,680)]
+rainfall = rainfall[-1,c(1,472)]
 colnames(rainfall) = c("V1","V2")
 rainfall$V2 = as.numeric(rainfall$V2)
 rainfall[which(rainfall$V2 == -999),2] <-NA
