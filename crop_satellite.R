@@ -2,18 +2,18 @@ library(raster)
 library(rgdal)
 
 #Crop GPM data
-setwd("D:/ITC/thesis_Turkey/IMERG/IMERG_L_Test/extreme")
+setwd("D:/ITC/thesis_Turkey/IMERG/IMERG_L_2020")
 name = list.files()
 for (i in name){
   save = paste0("crop",substr(i,24,31),"late",".tif")
-  setwd("D:/ITC/thesis_Turkey/IMERG/IMERG_L_Test/extreme")
+  setwd("D:/ITC/thesis_Turkey/IMERG/IMERG_L_2020")
   raster = raster(i)
   shape <- readOGR("D:/ITC/thesis_Turkey/Clip/new.shp")
   raster_crop <- crop(raster,shape,snap="out")
   fr <- rasterize(shape, raster_crop)   
   lr <- mask(x=raster_crop, mask=fr)
   
-  setwd("D:/ITC/thesis_Turkey/IMERG/IMERG_L_Test_Tur/extreme")
+  setwd("D:/ITC/thesis_Turkey/IMERG/IMERG_L_2020Tur")
   writeRaster(lr,save,options=c('TFW=YES'))
   
 }

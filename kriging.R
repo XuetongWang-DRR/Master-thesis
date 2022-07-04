@@ -14,26 +14,26 @@ rainfall$V1 = substr(rainfall$V1,1,5)
 rainfall$V1 = as.numeric(rainfall$V1)
 station$Station.ID = as.numeric(station$Station.ID)
 
+8.15,99,282.317.341,708,710,715,724,731,756,865,1007,1090,1375,1396,1484,1768,1798
 
-rainfall = rainfall[-1,c(1,472)]
+rainfall = rainfall[-1,c(1,1798)]
 colnames(rainfall) = c("V1","V2")
 rainfall$V2 = as.numeric(rainfall$V2)
 rainfall[which(rainfall$V2 == -999),2] <-NA
 rainfall = na.omit(rainfall)
-rainfall$V2 = rainfall$V2 +2
+#rainfall$V2 = rainfall$V2 +2
 
 colnames(station)[1] <- c("ID")
 colnames(rainfall) <- c("ID","rainfall")
 combind = left_join(rainfall,station,by = c("ID"))
-combine.1 = cbind(combind,
-                  ltra = log(combind$rainfall),
-                  ltel = log(combind$Elevation))
+#combine.1 = cbind(combind,
+#                  ltra = log(combind$rainfall),
+#                  ltel = log(combind$Elevation))
 
-combine.1 %>% as.data.frame %>% 
-  ggplot(aes(Lon, Lat)) + geom_point(aes(size=ltra), color="blue", alpha=3/4) + 
-  ggtitle("Zinc Concentration (ppm)") + coord_equal() + theme_bw()
+combind %>% as.data.frame %>% 
+  ggplot(aes(Lon, Lat)) + geom_point(aes(size=rainfall), color="blue", alpha=3/4) + 
+  ggtitle("2019-12-02") + coord_equal() + theme_bw()
 
-coordinates(combine.1) = ~Lon+Lat
 TEM_v <-variogram(ltra~ 1, data= combine.1,cloud= FALSE)# cloud= F只显示各个区间数字
 plot(TEM_v, plot.number= T)
 

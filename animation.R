@@ -6,7 +6,7 @@ library(gtools)
 
 #Making animation
 ## list file names and read in
-setwd("D:/ITC/thesis_Turkey/animation/IDW_GPM_png/extreme")
+setwd("D:/ITC/thesis_Turkey/animation/station")
 imgs <- list.files()
 
 img_list <- lapply(imgs, image_read)
